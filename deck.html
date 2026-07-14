@@ -12,6 +12,7 @@
     --accent:#B4530A; --accent-soft:#F6E3D3;
     --good:#2E7D4F; --good-soft:#E2F0E7; --warn:#95680A; --warn-soft:#F6ECD4; --crit:#B3372B; --crit-soft:#F9E2DE;
     --pin:#F2B705;
+    --a1:#B4530A; --a2:#3E6B8F; --a3:#6F5A8E; --a4:#4E7D6B;
     --mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
     --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
@@ -34,13 +35,11 @@
   .sec::after{content:"";flex:1;height:1px;background:var(--line)}
   .sec .accent{color:var(--accent)}
 
-  /* machine rules chips */
   .rules{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:18px}
   .rule{border:1px solid var(--line);border-radius:8px;background:var(--card);padding:9px 11px;font-size:11.5px;color:var(--ink-2)}
   .rule b{display:block;font-size:12px;color:var(--ink);margin-bottom:3px;line-height:1.25}
 
   .cols{display:grid;gap:14px}
-  .cols.c2-1{grid-template-columns:2.05fr 1fr}
   .cols.c1-1{grid-template-columns:1fr 1fr}
 
   .twrap{border:1px solid var(--line);border-radius:8px;background:var(--card);overflow:hidden}
@@ -52,6 +51,20 @@
   td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
   tr.total td{font-weight:700;color:var(--ink);background:color-mix(in srgb,var(--accent-soft) 34%,var(--card));border-top:1px solid var(--line)}
   .sub{display:block;font-size:10.5px;color:var(--ink-3);font-weight:400;line-height:1.3;margin-top:1px}
+
+  /* ── HERO allocation table ─────────────────── */
+  .hero{border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line));border-top:4px solid var(--accent);border-radius:10px;background:var(--card);
+        overflow:hidden;box-shadow:0 3px 14px rgba(180,83,10,.10);margin-bottom:12px}
+  .hero table{font-size:13.5px}
+  .hero th{font-size:10px;padding:10px 14px;background:color-mix(in srgb,var(--accent-soft) 45%,var(--card));color:color-mix(in srgb,var(--accent) 70%,var(--ink-3))}
+  .hero td{padding:11px 14px;border-bottom:1px solid var(--line-soft)}
+  .hero td.name{min-width:190px}
+  .hero .chip{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:7px;vertical-align:-.5px}
+  .hero .sharebar{height:5px;border-radius:99px;background:var(--line-soft);margin-top:5px;overflow:hidden;min-width:64px}
+  .hero .sharebar i{display:block;height:100%;border-radius:99px}
+  .hero td.vid{font-weight:700;color:var(--ink);background:color-mix(in srgb,var(--accent-soft) 26%,transparent)}
+  .hero tr.total td{font-size:14px;background:var(--accent-soft);border-top:2px solid var(--accent)}
+  .hero tr.total td.vid{background:color-mix(in srgb,var(--accent) 16%,var(--accent-soft))}
 
   .pill{display:inline-block;font-size:10px;font-weight:750;letter-spacing:.05em;border-radius:999px;padding:1.5px 9px;white-space:nowrap}
   .pill.good{background:var(--good-soft);color:var(--good)}
@@ -85,7 +98,6 @@
   #bar button{border:1px solid var(--line);background:var(--sheet);color:var(--ink-2);border-radius:999px;padding:4px 11px;font-size:11.5px;font-weight:650;cursor:pointer;font-family:var(--sans)}
   #bar button:hover{border-color:var(--ink-3)}
   #bar button.on{background:var(--accent);border-color:var(--accent);color:#fff}
-  #bar .hint{font-size:10px;color:var(--ink-3);max-width:120px;line-height:1.2;display:none}
   body.editing .sheet{outline:2px dashed color-mix(in srgb,var(--accent) 45%,transparent);outline-offset:4px}
   body.commenting .sheet{cursor:crosshair}
 
@@ -110,13 +122,14 @@
   @media (max-width:1000px){
     .rules,.funnel{grid-template-columns:repeat(2,1fr)}
     .ft::after{display:none}
-    .cols.c2-1,.cols.c1-1{grid-template-columns:1fr}
+    .cols.c1-1{grid-template-columns:1fr}
     .head{flex-direction:column;align-items:flex-start}
     .sheet{padding:24px 20px}
+    .hero{overflow-x:auto}
   }
   @media print{
     body{background:#fff}
-    .sheet{width:100%;max-width:none;margin:0;border:none;border-radius:0;box-shadow:none;padding:16px 20px;page-break-after:always;zoom:.62;outline:none!important}
+    .sheet{width:100%;max-width:none;margin:0;border:none;border-radius:0;box-shadow:none;padding:16px 20px;page-break-after:always;zoom:.56;outline:none!important}
     footer,#bar,.cpin,.cbox{display:none!important}
     @page{size:A4 landscape;margin:8mm}
   }
@@ -148,7 +161,7 @@
       <span>Stakes</span><b>$500/brand/mo — first invoice Mon Jul 27</b>
     </div>
   </div>
-  <p class="objective"><b>Objective — 100+ creators seeded before the first invoice.</b> Spend the full invitation quota across 4 audience angles, land <b>≥100 sample requests (5% target rate)</b>, ship 100+ free samples, and read which angle converts. 100% free-sample seeding — <b>zero paid collabs</b> in this trial. At target, cost ≈ <b>$5 per seeded creator</b> vs ≈$540 per bought video.</p>
+  <p class="objective"><b>Objective — 100+ creators seeded, ≥70% of them posting.</b> Spend the full invitation quota across 4 audience angles, land <b>≥100 sample requests (5% target rate)</b>, ship 100+ free samples, and hold posting at <b>≥70%</b> through the no-post control loop → <b>70+ videos</b>. 100% free-sample seeding, <b>zero paid collabs</b>. At target: ≈<b>$7 per posted video</b> vs ≈$540 per bought video.</p>
 
   <p class="sec"><span class="accent">01</span> Machine rules — only the non-obvious</p>
   <div class="rules">
@@ -159,56 +172,81 @@
     <div class="rule"><b>Requests expire ~4 days</b>Auto-approve OFF — every request is human-approved with AI verdict + creator's own post-rate history on screen.</div>
   </div>
 
-  <div class="cols c2-1" style="margin-bottom:14px">
-    <div>
-      <p class="sec"><span class="accent">02</span> The allocation — 4 angles, weighted for readout</p>
-      <div class="twrap"><table>
-        <tr><th>Campaign / angle</th><th>Type</th><th class="num">Share</th><th class="num">Invites</th><th class="num">Est. requests</th><th class="num">Est. shipped</th><th class="num">Est. videos</th><th>Role in the test</th></tr>
-        <tr><td><b>Summer Glow</b><span class="sub">broad, in-season · summer girls</span></td><td>Automated</td><td class="num">40%</td><td class="num">990</td><td class="num">~49</td><td class="num">~40</td><td class="num">~16</td><td>Volume engine — main conversion read</td></tr>
-        <tr><td><b>Sweat-to-Soft</b><span class="sub">sports &amp; active recovery</span></td><td>Automated</td><td class="num">25%</td><td class="num">620</td><td class="num">~31</td><td class="num">~25</td><td class="num">~10</td><td>Conversion test #2</td></tr>
-        <tr><td><b>Morning Ritual</b><span class="sub">self-care · crowded space</span></td><td>Automated</td><td class="num">20%</td><td class="num">490</td><td class="num">~25</td><td class="num">~20</td><td class="num">~8</td><td>Weakest hypothesis — first kill candidate</td></tr>
-        <tr><td><b>Equestrian</b><span class="sub">barn-to-luxury · brand's TOF wedge</span></td><td>Curated list</td><td class="num">15%</td><td class="num">370</td><td class="num">~18</td><td class="num">~15</td><td class="num">~6</td><td>Strategic — scored on its own board ↓</td></tr>
-        <tr class="total"><td>Total</td><td></td><td class="num">100%</td><td class="num">2,470</td><td class="num">~123</td><td class="num">100+</td><td class="num">~40</td><td></td></tr>
-      </table></div>
-      <div class="cols c1-1" style="margin-top:10px">
-        <div class="note"><b>Why the strategic favorite gets 15%, not 40%.</b>
-          <ul>
-            <li><b>Pool depth:</b> equestrian × TikTok Shop × &lt;20k followers is a few hundred creators — overweighting stalls the daily quota.</li>
-            <li><b>Readout:</b> ~40 videos ÷ 4 equal ways = nothing readable. 40/25/20/15 gives the lead angle statistical weight.</li>
-            <li>The Jul 26 gate is scored on <b>total volume</b> — broad angles carry it.</li>
-          </ul>
-        </div>
-        <div class="note"><b>Equestrian scoreboard (not judged on 14-day GMV).</b>
-          <ul>
-            <li>Curated list ≥25–30 qualified riders (AI vector search → saved list)</li>
-            <li>≥15 samples accepted · ≥6 videos at ≥ creator's own median views</li>
-            <li>"Where do I buy this" comments &amp; saves = the TOF signal</li>
-            <li>2–3 ambassador candidates shortlisted for August</li>
-          </ul>
-        </div>
-      </div>
+  <p class="sec"><span class="accent">02</span> The allocation — 4 angles · 2,470 invites · 70%+ post rate enforced</p>
+  <div class="hero"><table>
+    <tr><th>Campaign / angle</th><th>Type</th><th class="num" style="min-width:110px">Share</th><th class="num">Invites</th><th class="num">Est. requests <span style="text-transform:none">·5%</span></th><th class="num">Est. seeded</th><th class="num">Est. videos ·70%+</th><th>Role in the test</th></tr>
+    <tr>
+      <td class="name"><span class="chip" style="background:var(--a1)"></span><b>Summer Glow</b><span class="sub">broad, in-season · summer girls</span></td>
+      <td>Automated</td>
+      <td class="num"><b>40%</b><div class="sharebar"><i style="width:40%;background:var(--a1)"></i></div></td>
+      <td class="num">990</td><td class="num">~49</td><td class="num">~40</td><td class="num vid">~28</td>
+      <td>Volume engine — main conversion read</td>
+    </tr>
+    <tr>
+      <td class="name"><span class="chip" style="background:var(--a2)"></span><b>Sweat-to-Soft</b><span class="sub">sports &amp; active recovery</span></td>
+      <td>Automated</td>
+      <td class="num"><b>25%</b><div class="sharebar"><i style="width:25%;background:var(--a2)"></i></div></td>
+      <td class="num">620</td><td class="num">~31</td><td class="num">~25</td><td class="num vid">~18</td>
+      <td>Conversion test #2</td>
+    </tr>
+    <tr>
+      <td class="name"><span class="chip" style="background:var(--a3)"></span><b>Morning Ritual</b><span class="sub">self-care · crowded space</span></td>
+      <td>Automated</td>
+      <td class="num"><b>20%</b><div class="sharebar"><i style="width:20%;background:var(--a3)"></i></div></td>
+      <td class="num">490</td><td class="num">~25</td><td class="num">~20</td><td class="num vid">~14</td>
+      <td>Weakest hypothesis — first kill candidate</td>
+    </tr>
+    <tr>
+      <td class="name"><span class="chip" style="background:var(--a4)"></span><b>Equestrian</b><span class="sub">barn-to-luxury · brand's TOF wedge</span></td>
+      <td>Curated list</td>
+      <td class="num"><b>15%</b><div class="sharebar"><i style="width:15%;background:var(--a4)"></i></div></td>
+      <td class="num">370</td><td class="num">~18</td><td class="num">~15</td><td class="num vid">~11</td>
+      <td>Strategic — scored on its own board ↓</td>
+    </tr>
+    <tr class="total"><td>Total</td><td></td><td class="num">100%</td><td class="num">2,470</td><td class="num">~123</td><td class="num">100+</td><td class="num vid">70+</td><td>≈$7 / posted video</td></tr>
+  </table></div>
+
+  <div class="cols c1-1" style="margin-bottom:12px">
+    <div class="note"><b>Why the strategic favorite gets 15%, not 40%.</b>
+      <ul>
+        <li><b>Pool depth:</b> equestrian × TikTok Shop × &lt;20k followers is a few hundred creators — overweighting stalls the daily quota.</li>
+        <li><b>Readout:</b> ~70 videos ÷ 4 equal ways = no readable signal. 40/25/20/15 gives the lead angle statistical weight.</li>
+        <li>The Jul 26 gate is scored on <b>total volume</b> — broad angles carry it.</li>
+      </ul>
     </div>
+    <div class="note"><b>Equestrian scoreboard (not judged on 14-day GMV).</b>
+      <ul>
+        <li>Curated list ≥25–30 qualified riders (AI vector search → saved list)</li>
+        <li>≥15 samples accepted · ≥10 videos (70%) at ≥ creator's own median views</li>
+        <li>"Where do I buy this" comments &amp; saves = the TOF signal</li>
+        <li>2–3 ambassador candidates shortlisted for August</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cols c1-1">
     <div>
-      <p class="sec"><span class="accent">03</span> Capacity &amp; common setup</p>
+      <p class="sec"><span class="accent">03</span> Capacity</p>
       <div class="twrap"><table>
         <tr><th>Week</th><th>Sending days</th><th class="num">Invites</th></tr>
         <tr><td><b>W1</b> · Jul 14–19</td><td>6 — starts today</td><td class="num">1,140</td></tr>
         <tr><td><b>W2</b> · Jul 20–26</td><td>7 — full week</td><td class="num">1,330</td></tr>
         <tr class="total"><td>Total</td><td>13 days · full quota, no reserve</td><td class="num">2,470</td></tr>
       </table></div>
-      <div style="margin:10px 2px 12px">
+      <div style="margin:10px 2px 0">
         <div class="barlbl"><span>Daily quota to watch every morning</span><b>190 / day</b></div>
         <div class="bar"><i style="width:100%"></i></div>
       </div>
+    </div>
+    <div>
+      <p class="sec"><span class="accent">04</span> Common setup — identical across all 4</p>
       <div class="twrap"><table>
-        <tr><th>Setting — identical across all 4</th><th class="num">Value</th></tr>
         <tr><td>Compensation</td><td class="num"><b>Free sample + 15% flat</b> — no paid collabs</td></tr>
         <tr><td>GMV sections per automated campaign</td><td class="num"><b>40%</b> $1k–2.5k · <b>60%</b> $2.5k–25k</td></tr>
         <tr><td>Products</td><td class="num">Coffee Scrub $42 + Aloe Gel $32</td></tr>
         <tr><td>Free sample / Auto-approve / Move on overlap</td><td class="num">ON · OFF · ON</td></tr>
-        <tr><td>Preferred content</td><td class="num">Video</td></tr>
+        <tr><td>Preferred content · price discipline</td><td class="num">Video · <b>no discount hooks</b></td></tr>
       </table></div>
-      <div class="note" style="margin-top:10px;border-left-color:var(--warn)"><b>Price discipline:</b> commission frozen at 15%, no discount-led hooks — the last creator &amp; customer drop came from repositioning on price. Angle is the only variable in this test.</div>
     </div>
   </div>
 </section>
@@ -217,30 +255,30 @@
 <section class="sheet" data-sheet="1">
   <span class="pageno">PAGE 2 / 2 · TARGETS &amp; EXECUTION</span>
 
-  <p class="sec"><span class="accent">04</span> Expected funnel — 13 days, all campaigns</p>
+  <p class="sec"><span class="accent">05</span> Expected funnel — 13 days, all campaigns</p>
   <div class="funnel">
     <div class="ft"><div class="fk">Invites sent</div><div class="fv">2,470</div><div class="fr">quota fully spent</div></div>
     <div class="ft"><div class="fk">Sample requests</div><div class="fv">≥123</div><div class="fr">5% target · 100 = floor</div></div>
     <div class="ft anchor"><div class="fk">Creators seeded</div><div class="fv">100+</div><div class="fr">the anchor number</div></div>
-    <div class="ft"><div class="fk">Videos posted</div><div class="fv">~40</div><div class="fr">40% post rate + tail</div></div>
-    <div class="ft"><div class="fk">Cohort GMV</div><div class="fv">~$3.9k</div><div class="fr">$39/sample · 30-day</div></div>
+    <div class="ft anchor"><div class="fk">Videos posted</div><div class="fv">70+</div><div class="fr">≥70% — enforced, see loop ↓</div></div>
+    <div class="ft"><div class="fk">Cohort GMV</div><div class="fv">~$7.4k</div><div class="fr">~$105/video · 30-day</div></div>
   </div>
 
   <div class="cols c1-1" style="margin-bottom:14px">
     <div>
-      <p class="sec"><span class="accent">05</span> KPI ladder</p>
+      <p class="sec"><span class="accent">06</span> KPI ladder</p>
       <div class="twrap"><table>
         <tr><th>Metric · 13 days</th><th class="num">Floor</th><th class="num">Target</th><th class="num">Stretch</th><th>Read in</th></tr>
         <tr><td><b>Invites actually sent</b><span class="sub">operational discipline</span></td><td class="num">2,280</td><td class="num">2,470</td><td class="num">2,470</td><td>Campaigns → quota bars</td></tr>
         <tr><td><b>Sample requests</b><span class="sub">the trial's vital sign</span></td><td class="num">100 <span class="sub">4%</span></td><td class="num">123 <span class="sub">5%</span></td><td class="num">173 <span class="sub">7%</span></td><td>Invitations</td></tr>
         <tr><td><b>Creators seeded</b><span class="sub">approved &amp; shipped</span></td><td class="num">80</td><td class="num">100+</td><td class="num">130</td><td>Samples → Shipped</td></tr>
-        <tr><td><b>Videos posted</b><span class="sub">30 / 40 / 50% of seeded, incl. tail</span></td><td class="num">24</td><td class="num">40</td><td class="num">65</td><td>Affiliate → Videos</td></tr>
-        <tr><td><b>Cohort GMV</b><span class="sub">30-day attribution</span></td><td class="num">$3.1k</td><td class="num">$3.9k</td><td class="num">$5.1k</td><td>Shop Overview → Affiliates</td></tr>
+        <tr><td><b>Videos posted</b><span class="sub">≥70% of seeded — managed via control loop; shop's unmanaged history is ~37%</span></td><td class="num">56 <span class="sub">70%×80</span></td><td class="num">70+ <span class="sub">70%×100</span></td><td class="num">91 <span class="sub">70%×130</span></td><td>Affiliate → Videos</td></tr>
+        <tr><td><b>Cohort GMV</b><span class="sub">~$105 per posted video · 30-day attribution</span></td><td class="num">$5.9k</td><td class="num">$7.4k</td><td class="num">$9.6k</td><td>Shop Overview → Affiliates</td></tr>
       </table></div>
       <div class="note" style="margin-top:10px"><b>Ops guardrails:</b> reply to creators &lt;24h (response-rate warnings are our #1 recurring TikTok violation) · decide samples &lt;48h (requests expire ~4 days) · COGS entered per product so Net P&amp;L reads true.</div>
     </div>
     <div>
-      <p class="sec"><span class="accent">06</span> Cadence — three checkpoints, then the call</p>
+      <p class="sec"><span class="accent">07</span> Cadence — three checkpoints, then the call</p>
       <div class="twrap"><table>
         <tr><th style="width:92px">Date</th><th>Action</th></tr>
         <tr><td><b>Tue Jul 14</b></td><td><b>Launch day (today).</b> Enter COGS, clear sample + inbox backlog, all 4 campaigns live — machine sending by tonight.</td></tr>
@@ -248,9 +286,9 @@
         <tr><td><b>Mon Jul 20</b></td><td><b>Quota reset → reallocate.</b> Winner +15pp share, loser −15pp. If Morning Ritual is clearly last: kill, fold into Summer Glow.</td></tr>
         <tr><td><b>Sun Jul 26</b></td><td><b>Score vs the gate</b> and decide — before Monday's invoice.</td></tr>
       </table></div>
-      <div class="note" style="margin-top:10px"><b>No-post control — yes, Dimension scores this.</b> Every creator carries a <b>PPS score (0–5)</b> and their <b>historical post rate</b>, shown with an AI verdict at approval time (e.g. "post rate 36.8% · AI: Uncertain"); Samples analytics tracks sample → content per creator.
+      <div class="note" style="margin-top:10px"><b>No-post control — how 70% gets enforced.</b> Dimension scores this natively: every creator carries a <b>PPS score (0–5)</b> and <b>historical post rate</b>, shown with an AI verdict at approval time; Samples analytics tracks sample → content per creator.
         <ul>
-          <li><b>Gate at approval:</b> post rate ≥30% &amp; PPS ≥4.0 — below that, reject or ask for a posting commitment in chat first.</li>
+          <li><b>Gate at approval:</b> only approve post rate ≥50% &amp; PPS ≥4.0; borderline cases must confirm a posting commitment in chat first.</li>
           <li><b>Chase:</b> automated D+3 and D+7 follow-up after delivery (creator Messaging Tasks).</li>
           <li><b>One-sample rule:</b> no second SKU until the first video is live.</li>
           <li><b>Weekly sweep:</b> shipped &gt;10 days + no video → final nudge, then exclude from all future lists.</li>
@@ -260,22 +298,22 @@
     </div>
   </div>
 
-  <p class="sec"><span class="accent">07</span> Decision gate — Sun Jul 26</p>
+  <p class="sec"><span class="accent">08</span> Decision gate — Sun Jul 26</p>
   <div class="twrap"><table>
     <tr><th style="width:120px">Call</th><th>Threshold</th><th>Action</th><th>Rationale</th></tr>
-    <tr><td><span class="pill good">GO</span></td><td><b>≥100 sample requests</b> (rate ≥4%) and <b>≥70 shipped</b> by Jul 26 and <b>≥15 videos</b> live or in pipeline</td><td>Keep Dimension at $500/mo</td><td>≈$5 per seeded creator — two orders of magnitude under bought content (≈$540/video). Scale path: climb GMV tier → larger daily cap.</td></tr>
+    <tr><td><span class="pill good">GO</span></td><td><b>≥100 sample requests</b> (rate ≥4%) and <b>≥70 seeded</b> by Jul 26 and <b>≥25 videos live</b> with the rest committed in pipeline</td><td>Keep Dimension at $500/mo</td><td>≈$7 per posted video at target — two orders of magnitude under bought content (≈$540). Scale path: climb GMV tier → larger daily cap.</td></tr>
     <tr><td><span class="pill warn">NEGOTIATE</span></td><td>60–99 requests (rate 2.5–4%)</td><td>Ask for extension / month-to-month</td><td>Signal exists but short of the anchor — two tuned weeks settle it.</td></tr>
     <tr><td><span class="pill crit">NO-GO</span></td><td>&lt;60 requests (rate &lt;2.5%) after two message rewrites</td><td>Cancel before billing</td><td>Cold outreach doesn't fit this shop tier yet — keep creator lists &amp; benchmarks, return to curated seeding.</td></tr>
   </table></div>
 
-  <p style="font-size:10.5px;color:var(--ink-3);margin:14px 2px 0">Sources: quota figures &amp; benchmarks read live from app.dimensionstudios.co (Jul 14, 2026) · allocation logic per Dimension expert guidance (Slack, louis) · $39/sample &amp; ~37% post rate are the shop's own trailing-30-day numbers. Print: ⌘P → 2 pages, A4 landscape. <b>✏️ Edit, 💬 Comment, 🖼 Image</b> (top-right) save to this browser — <b>⬇ Export</b> downloads the annotated file to share.</p>
+  <p style="font-size:10.5px;color:var(--ink-3);margin:14px 2px 0">Sources: quota figures read live from app.dimensionstudios.co (Jul 14, 2026) · allocation logic per Dimension expert guidance (Slack, louis) · $105/video derives from the shop's own $39/sample at its historical 37% post rate. Print: ⌘P → 2 pages, A4 landscape. <b>✏️ Edit, 💬 Comment, 🖼 Image</b> (top-right) save to this browser — <b>⬇ Export</b> downloads the annotated file to share.</p>
 </section>
 
 <footer>CoBa's Daughter × Dimension · 14-day trial media plan · Jul 14, 2026 · <span class="mono">arietao-stack.github.io/dimension-trial-plan</span></footer>
 
 <script>
 (function(){
-  var REV='r3';
+  var REV='r4';
   var K=function(k){return 'dtp:'+REV+':'+k};
   var sheets=[].slice.call(document.querySelectorAll('.sheet'));
   var $=function(id){return document.getElementById(id)};
@@ -285,13 +323,11 @@
   },400);
   function debounce(f,ms){var t;return function(){clearTimeout(t);t=setTimeout(f,ms)}}
 
-  /* restore saved edits */
   sheets.forEach(function(s,i){
     var h=localStorage.getItem(K('sheet'+i));
     if(h) s.innerHTML=h;
   });
 
-  /* ── edit mode ─────────────────────────────── */
   var editing=false, commenting=false;
   function setEdit(on){
     editing=on;
@@ -311,7 +347,6 @@
   document.addEventListener('input',function(e){ if(e.target.closest('.sheet')) save(); });
   if(location.search.indexOf('edit')>-1) setEdit(true);
 
-  /* ── comments ──────────────────────────────── */
   var openBox=null;
   function closeBox(){ if(openBox){openBox.remove();openBox=null} }
   function renumber(){ sheets.forEach(function(s){ [].slice.call(s.querySelectorAll('.cpin')).forEach(function(p,i){ p.firstChild.textContent=i+1; }); }); }
@@ -343,7 +378,6 @@
     s.appendChild(p); renumber(); editor(p,true);
   },true);
 
-  /* ── images ────────────────────────────────── */
   var curSheet=0;
   document.addEventListener('mousedown',function(e){ var s=e.target.closest('.sheet'); if(s) curSheet=+s.getAttribute('data-sheet')||0; });
   window.addEventListener('scroll',debounce(function(){
@@ -382,7 +416,6 @@
     if(fs.length){ e.preventDefault(); var s=e.target.closest('.sheet'); var i=s?+s.getAttribute('data-sheet'):curSheet; fs.forEach(function(f){addImg(f,i)}); }
   });
 
-  /* ── export / reset ────────────────────────── */
   $('bExp').onclick=function(){
     closeBox(); var was=editing; if(was) setEdit(false);
     var html='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
