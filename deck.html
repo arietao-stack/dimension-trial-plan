@@ -295,7 +295,7 @@
   <div class="tlmob">
     <div class="tmrow"><b>QUOTA WEEK 1 · Jul 14–19</b>All 4 sections live today · 6 days · 1,140 invites — sending tonight</div>
     <div class="tmrow w2"><b>QUOTA WEEK 2 · Jul 20–26</b>Resets Mon 2AM · 7 days · 1,330 invites · shift 15 pts to the winner</div>
-    <div class="tmrow gate"><b>Jul 26 decide · Jul 27 first invoice</b>Jul 17 tune · Jul 20 reallocate — details in Cadence, page 2</div>
+    <div class="tmrow gate"><b>Jul 26 decide · Jul 27 first invoice</b>Jul 17 tune messages · Jul 20 shift share to the winner</div>
   </div>
 
   <div class="sec"><span class="n">02</span><span class="t">Machine rules — only the non-obvious</span><span class="d"></span></div>
@@ -416,9 +416,7 @@
     </div>
   </div>
 
-  <div class="cols c1-1" style="margin-top:26px">
-    <div>
-      <div class="sec" style="margin-top:0"><span class="n">05</span><span class="t">KPI ladder</span><span class="d"></span></div>
+        <div class="sec"><span class="n">05</span><span class="t">KPI ladder</span><span class="d"></span></div>
       <div class="twrap"><table>
         <tr><th>Metric · 13 days</th><th class="num">Floor</th><th class="num" style="color:var(--accent)">Target</th><th class="num">Stretch</th><th>Read in</th></tr>
         <tr><td><b>Invites actually sent</b><span class="sub">operational discipline</span></td><td class="num">2,280</td><td class="num"><b>2,470</b></td><td class="num">2,470</td><td class="sub" style="margin:0">Campaigns → quota bars</td></tr>
@@ -428,28 +426,9 @@
         <tr><td><b>Cohort GMV</b><span class="sub">~$105 / posted video · 30-day</span></td><td class="num">$5.9k</td><td class="num"><b>$7.4k</b></td><td class="num">$9.6k</td><td class="sub" style="margin:0">Shop Overview → Affiliates</td></tr>
       </table></div>
       <p class="src" style="margin-top:12px"><b>Ops guardrails:</b> reply &lt;24h (our most repeated TikTok violation) · decide samples &lt;48h (they expire in ~4 days) · COGS entered so P&amp;L reads true.</p>
-    </div>
-    <div>
-      <div class="sec" style="margin-top:0"><span class="n">06</span><span class="t">Cadence &amp; no-post control</span><span class="d"></span></div>
-      <div class="cad">
-        <div class="cd"><span class="cdd">Tue Jul 14 — Launch day (today)</span><p>Configure the 4 sections + filters, paste the invite (contact <b>pr@cobasdaughter.com</b>) — <b>campaign live, sending tonight</b>. Enter COGS, clear backlogs.</p></div>
-        <div class="cd minor"><span class="cdd" style="color:var(--ink-2)">Fri Jul 17 — first signal</span><p>Either angle &lt;2.5% request rate after ~250 invites → <b>rewrite its message</b>.</p></div>
-        <div class="cd minor"><span class="cdd" style="color:var(--ink-2)">Mon Jul 20 — reset &amp; reallocate</span><p>Move 15 points of share from the loser to the winner (Summer 40→55, Morning 20→5). Clearly last → <b>kill it</b>, fold into Summer Glow.</p></div>
-        <div class="cd final"><span class="cdd">Sun Jul 26 — the call</span><p><b>Score vs the gate</b> before Monday's invoice.</p></div>
-      </div>
-      <div class="note" style="margin-top:16px">
-        <h4>No-post control — how 70% gets enforced</h4>
-        Dimension tracks it natively: every request shows the creator's <b>PPS score (0–5)</b>, <b>post-rate history</b> and an AI verdict.
-        <ul>
-          <li><b>Approval gate:</b> post rate ≥50% &amp; PPS ≥4.0. Borderline cases confirm they'll post, in chat, before approval.</li>
-          <li><b>Chase:</b> automated D+3 / D+7 follow-ups (creator Messaging Tasks) · <b>one-sample rule</b> until first video is live.</li>
-          <li><b>Weekly sweep:</b> &gt;10 days no video → final nudge → excluded from all future lists. Exposure caps at COGS ~$5–8.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+    
 
-  <div class="sec"><span class="n">07</span><span class="t">Decision gate — Sun Jul 26</span><span class="d"></span></div>
+  <div class="sec"><span class="n">06</span><span class="t">Decision gate — Sun Jul 26</span><span class="d"></span></div>
   <div class="gates">
     <div class="gate go">
       <span class="pill">GO</span>
@@ -483,6 +462,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signO
 import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const OWNER='arie.tao@lixibox.com';
+const SRC_REV=12; // bump on every source deploy — cloud edits from an older source are ignored
 const fb=initializeApp({apiKey:"AIzaSyC70Bw3bXHrk39c6P4cD65iRwix4U-CaU0",authDomain:"github-arie.firebaseapp.com",projectId:"github-arie"});
 const auth=getAuth(fb), db=getFirestore(fb), provider=new GoogleAuthProvider();
 
@@ -508,14 +488,16 @@ const push=debounce(async function(){
     if(h===lastPushed[i]) continue;
     if(h.length>900000){ stat('too many images — remove some',true); continue }
     lastPushed[i]=h;
-    try{ await setDoc(refs[i],{html:h,by:auth.currentUser.email,at:Date.now()}); stat('saved ✓') }
+    try{ await setDoc(refs[i],{html:h,rev:SRC_REV,by:auth.currentUser.email,at:Date.now()}); stat('saved ✓') }
     catch(e){ stat('save failed',true) }
   }
 },900);
 refs.forEach(function(r,i){
   onSnapshot(r,function(snap){
     if(!snap.exists()) return;
-    var h=snap.data().html;
+    var d=snap.data();
+    if((d.rev||0)<SRC_REV) return; // stale cloud from an older source version
+    var h=d.html;
     if(h===lastPushed[i]||h===sheets[i].innerHTML) return;
     var el=document.activeElement;
     if(isOwner()&&editing&&el&&el.closest&&el.closest('.sheet')) return;
