@@ -174,6 +174,8 @@
   #bar button{border:1px solid transparent;background:transparent;color:var(--ink-2);border-radius:999px;padding:4px 11px;font-size:11.5px;font-weight:650;cursor:pointer;font-family:var(--sans)}
   #bar button:hover{background:var(--accent-faint);color:var(--ink)}
   #bar button.on{background:var(--accent);color:#fff}
+  #stat{font-size:10px;color:var(--ink-3);padding:0 2px 0 6px;white-space:nowrap;max-width:170px;overflow:hidden;text-overflow:ellipsis}
+  #stat:empty{display:none}
   body.editing .sheet{outline:2px dashed color-mix(in srgb,var(--accent) 45%,transparent);outline-offset:4px}
   body.commenting .sheet{cursor:crosshair}
 
@@ -234,7 +236,7 @@
     .frow .fv{font-size:21px}
     .frow .fv small{display:block;margin:1px 0 0}
     .pageno{position:static;display:block;text-align:right;margin-top:14px}
-    #bar{top:auto;bottom:10px;left:50%;right:auto;transform:translateX(-50%);padding:5px 7px;max-width:calc(100vw - 16px)}
+    #bar{top:auto;bottom:10px;left:50%;right:auto;transform:translateX(-50%);padding:5px 7px;max-width:calc(100vw - 16px);overflow-x:auto}
     #bar button{padding:3px 2px 4px;font-size:9.5px;width:58px;white-space:nowrap;line-height:1.55;text-align:center;overflow:hidden}
     #bar #bCom{width:76px}
     footer{padding:0 12px 56px}
@@ -250,6 +252,8 @@
 <body>
 
 <div id="bar">
+  <span id="stat"></span>
+  <button id="bAuth" title="Sign in with Google — only arie.tao@lixibox.com can save live">👤 Sign in</button>
   <button id="bEdit" title="Edit any text directly on the page">✏️ Edit</button>
   <button id="bCom" title="Click anywhere on a page to drop a comment pin">💬 Comment</button>
   <button id="bImg" title="Attach screenshots / images to the page in view">🖼 Image</button>
@@ -473,125 +477,171 @@
 
 <footer>CoBa's Daughter × Dimension · 14-day trial media plan · Jul 14, 2026 · <span class="mono">arietao-stack.github.io/dimension-trial-plan</span></footer>
 
-<script>
-(function(){
-  var REV='r10';
-  var K=function(k){return 'dtp:'+REV+':'+k};
-  var sheets=[].slice.call(document.querySelectorAll('.sheet'));
-  var $=function(id){return document.getElementById(id)};
-  var save=debounce(function(){
-    try{ sheets.forEach(function(s,i){ localStorage.setItem(K('sheet'+i), s.innerHTML); }); }
-    catch(e){ alert('Local storage is full (too many images). Export the file, then remove an image or Reset.'); }
-  },400);
-  function debounce(f,ms){var t;return function(){clearTimeout(t);t=setTimeout(f,ms)}}
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  sheets.forEach(function(s,i){
-    var h=localStorage.getItem(K('sheet'+i));
-    if(h) s.innerHTML=h;
-  });
+const OWNER='arie.tao@lixibox.com';
+const fb=initializeApp({apiKey:"AIzaSyC70Bw3bXHrk39c6P4cD65iRwix4U-CaU0",authDomain:"github-arie.firebaseapp.com",projectId:"github-arie"});
+const auth=getAuth(fb), db=getFirestore(fb), provider=new GoogleAuthProvider();
 
-  var editing=false, commenting=false;
-  function setEdit(on){
-    editing=on;
-    document.body.classList.toggle('editing',on);
-    $('bEdit').classList.toggle('on',on);
-    sheets.forEach(function(s){ s.contentEditable=on ? 'true':'false'; });
-    if(on&&commenting) setCom(false);
-  }
-  function setCom(on){
-    commenting=on;
-    document.body.classList.toggle('commenting',on);
-    $('bCom').classList.toggle('on',on);
-    if(on&&editing) setEdit(false);
-  }
-  $('bEdit').onclick=function(){ setEdit(!editing) };
-  $('bCom').onclick=function(){ setCom(!commenting) };
-  document.addEventListener('input',function(e){ if(e.target.closest('.sheet')) save(); });
-  if(location.search.indexOf('edit')>-1) setEdit(true);
+const sheets=[].slice.call(document.querySelectorAll('.sheet'));
+const pristine=sheets.map(function(s){return s.innerHTML});
+const $=function(id){return document.getElementById(id)};
+function debounce(f,ms){var t;return function(){clearTimeout(t);t=setTimeout(f,ms)}}
+const isOwner=function(){return auth.currentUser && auth.currentUser.email===OWNER};
+var statT;
+function stat(t,bad){var e=$('stat');e.textContent=t||'';e.style.color=bad?'var(--crit)':'var(--ink-3)';
+  clearTimeout(statT); if(t&&!bad){statT=setTimeout(function(){e.textContent=isOwner()?'● live':''},2500)}}
 
-  var openBox=null;
-  function closeBox(){ if(openBox){openBox.remove();openBox=null} }
-  function renumber(){ sheets.forEach(function(s){ [].slice.call(s.querySelectorAll('.cpin')).forEach(function(p,i){ p.firstChild.textContent=i+1; }); }); }
-  function editor(pin,isNew){
-    closeBox();
-    var box=document.createElement('div'); box.className='cbox'; box.contentEditable='false';
-    box.style.left=Math.min(parseFloat(pin.style.left),82)+'%';
-    box.style.top='calc('+pin.style.top+' + 16px)';
-    box.innerHTML='<textarea placeholder="Comment…"></textarea><div class="row"><button class="del">Delete</button><button>Close</button><button class="pri">Save</button></div>';
-    pin.parentNode.appendChild(box);
-    var ta=box.querySelector('textarea'); ta.value=pin.getAttribute('data-txt')||''; ta.focus();
-    var btns=box.querySelectorAll('button');
-    btns[0].onclick=function(){ pin.remove(); closeBox(); renumber(); save(); };
-    btns[1].onclick=function(){ if(isNew&&!pin.getAttribute('data-txt')){pin.remove();renumber();} closeBox(); };
-    btns[2].onclick=function(){ pin.setAttribute('data-txt',ta.value); pin.title=ta.value; closeBox(); save(); };
-    openBox=box;
-  }
-  document.addEventListener('click',function(e){
-    var pin=e.target.closest('.cpin');
-    if(pin){ e.preventDefault(); e.stopPropagation(); editor(pin,false); return; }
-    if(openBox && !e.target.closest('.cbox')) closeBox();
-    if(!commenting) return;
-    var s=e.target.closest('.sheet');
-    if(!s || e.target.closest('#bar')) return;
-    var r=s.getBoundingClientRect();
-    var x=((e.clientX-r.left)/r.width*100).toFixed(2), y=((e.clientY-r.top)/r.height*100).toFixed(2);
-    var p=document.createElement('div'); p.className='cpin'; p.contentEditable='false';
-    p.style.left=x+'%'; p.style.top=y+'%'; p.innerHTML='<span>•</span>';
-    s.appendChild(p); renumber(); editor(p,true);
-  },true);
+var editing=false, commenting=false;
 
-  var curSheet=0;
-  document.addEventListener('mousedown',function(e){ var s=e.target.closest('.sheet'); if(s) curSheet=+s.getAttribute('data-sheet')||0; });
-  window.addEventListener('scroll',debounce(function(){
-    var mid=innerHeight/2;
-    sheets.forEach(function(s,i){ var r=s.getBoundingClientRect(); if(r.top<mid&&r.bottom>mid) curSheet=i; });
-  },200));
-  function strip(i){
-    var s=sheets[i], a=s.querySelector('.attach');
-    if(!a){ a=document.createElement('div'); a.className='attach'; s.appendChild(a); }
-    return a;
+/* ── cloud sync: one doc per page, realtime for every viewer ── */
+const refs=[doc(db,'plan','sheet0'),doc(db,'plan','sheet1')];
+var lastPushed=['',''];
+const push=debounce(async function(){
+  if(!isOwner()){ if(auth.currentUser) stat('view only — not saved',true); return }
+  stat('saving…');
+  for(var i=0;i<sheets.length;i++){
+    var h=sheets[i].innerHTML;
+    if(h===lastPushed[i]) continue;
+    if(h.length>900000){ stat('too many images — remove some',true); continue }
+    lastPushed[i]=h;
+    try{ await setDoc(refs[i],{html:h,by:auth.currentUser.email,at:Date.now()}); stat('saved ✓') }
+    catch(e){ stat('save failed',true) }
   }
-  function addImg(file,i){
-    var img=new Image(), rd=new FileReader();
-    rd.onload=function(){ img.src=rd.result; };
-    img.onload=function(){
-      var W=Math.min(img.naturalWidth,1600), sc=W/img.naturalWidth, c=document.createElement('canvas');
-      c.width=W; c.height=Math.round(img.naturalHeight*sc);
-      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
-      var url=c.toDataURL('image/jpeg',.85);
-      var f=document.createElement('figure'); f.className='aimg';
-      f.innerHTML='<button class="rm" contenteditable="false" title="Remove">✕</button><img src="'+url+'"><figcaption contenteditable="true">caption…</figcaption>';
-      strip(i).appendChild(f); save();
-    };
-    rd.readAsDataURL(file);
-  }
-  $('bImg').onclick=function(){ $('fpick').click() };
-  $('fpick').onchange=function(e){ [].slice.call(e.target.files).forEach(function(f){ addImg(f,curSheet) }); e.target.value=''; };
-  document.addEventListener('click',function(e){ if(e.target.classList&&e.target.classList.contains('rm')){ e.target.closest('.aimg').remove(); save(); } },true);
-  document.addEventListener('paste',function(e){
-    var items=(e.clipboardData||{}).items||[];
-    for(var i=0;i<items.length;i++){ if(items[i].type.indexOf('image')===0){ addImg(items[i].getAsFile(),curSheet); e.preventDefault(); } }
-  });
-  document.addEventListener('dragover',function(e){ if([].some.call(e.dataTransfer.types,function(t){return t==='Files'})) e.preventDefault(); });
-  document.addEventListener('drop',function(e){
-    var fs=[].slice.call(e.dataTransfer.files).filter(function(f){return f.type.indexOf('image')===0});
-    if(fs.length){ e.preventDefault(); var s=e.target.closest('.sheet'); var i=s?+s.getAttribute('data-sheet'):curSheet; fs.forEach(function(f){addImg(f,i)}); }
-  });
+},900);
+refs.forEach(function(r,i){
+  onSnapshot(r,function(snap){
+    if(!snap.exists()) return;
+    var h=snap.data().html;
+    if(h===lastPushed[i]||h===sheets[i].innerHTML) return;
+    var el=document.activeElement;
+    if(isOwner()&&editing&&el&&el.closest&&el.closest('.sheet')) return;
+    sheets[i].innerHTML=h; lastPushed[i]=h;
+  },function(){/* rules not published yet — page falls back to baked-in content */});
+});
 
-  $('bExp').onclick=function(){
-    closeBox(); var was=editing; if(was) setEdit(false);
-    var html='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
-    if(was) setEdit(true);
-    var a=document.createElement('a');
-    a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));
-    a.download='dimension-trial-plan-annotated.html'; a.click();
+/* ── auth ── */
+$('bAuth').onclick=async function(){
+  if(auth.currentUser){ if(confirm('Sign out?')) await signOut(auth); return }
+  try{ await signInWithPopup(auth,provider) }catch(e){ alert('Sign-in failed: '+e.message) }
+};
+onAuthStateChanged(auth,function(u){
+  var b=$('bAuth');
+  if(!u){ b.textContent='👤 Sign in'; b.classList.remove('on'); stat('') }
+  else if(u.email===OWNER){ b.textContent='✓ live editing'; b.classList.add('on'); stat('● live') }
+  else{ b.textContent='👀 '+u.email.split('@')[0]; b.classList.remove('on'); stat('view only — not saved',true) }
+});
+
+/* ── edit / comment ── */
+function setEdit(on){
+  editing=on;
+  document.body.classList.toggle('editing',on);
+  $('bEdit').classList.toggle('on',on);
+  sheets.forEach(function(s){ s.contentEditable=on?'true':'false' });
+  if(on&&commenting) setCom(false);
+  if(on&&!auth.currentUser) $('bAuth').click();
+}
+function setCom(on){
+  commenting=on;
+  document.body.classList.toggle('commenting',on);
+  $('bCom').classList.toggle('on',on);
+  if(on&&editing) setEdit(false);
+  if(on&&!auth.currentUser) $('bAuth').click();
+}
+$('bEdit').onclick=function(){ setEdit(!editing) };
+$('bCom').onclick=function(){ setCom(!commenting) };
+document.addEventListener('input',function(e){ if(e.target.closest('.sheet')) push(); });
+if(location.search.indexOf('edit')>-1) setEdit(true);
+
+var openBox=null;
+function closeBox(){ if(openBox){openBox.remove();openBox=null} }
+function renumber(){ sheets.forEach(function(s){ [].slice.call(s.querySelectorAll('.cpin')).forEach(function(p,i){ p.firstChild.textContent=i+1 }) }) }
+function editor(pin,isNew){
+  closeBox();
+  var box=document.createElement('div'); box.className='cbox'; box.contentEditable='false';
+  box.style.left=Math.min(parseFloat(pin.style.left),82)+'%';
+  box.style.top='calc('+pin.style.top+' + 16px)';
+  box.innerHTML='<textarea placeholder="Comment…"></textarea><div class="row"><button class="del">Delete</button><button>Close</button><button class="pri">Save</button></div>';
+  pin.parentNode.appendChild(box);
+  var ta=box.querySelector('textarea'); ta.value=pin.getAttribute('data-txt')||''; ta.focus();
+  var btns=box.querySelectorAll('button');
+  btns[0].onclick=function(){ pin.remove(); closeBox(); renumber(); push() };
+  btns[1].onclick=function(){ if(isNew&&!pin.getAttribute('data-txt')){pin.remove();renumber()} closeBox() };
+  btns[2].onclick=function(){ pin.setAttribute('data-txt',ta.value); pin.title=ta.value; closeBox(); push() };
+  openBox=box;
+}
+document.addEventListener('click',function(e){
+  var pin=e.target.closest('.cpin');
+  if(pin){ e.preventDefault(); e.stopPropagation(); editor(pin,false); return }
+  if(openBox && !e.target.closest('.cbox')) closeBox();
+  if(!commenting) return;
+  var s=e.target.closest('.sheet');
+  if(!s || e.target.closest('#bar')) return;
+  var r=s.getBoundingClientRect();
+  var x=((e.clientX-r.left)/r.width*100).toFixed(2), y=((e.clientY-r.top)/r.height*100).toFixed(2);
+  var p=document.createElement('div'); p.className='cpin'; p.contentEditable='false';
+  p.style.left=x+'%'; p.style.top=y+'%'; p.innerHTML='<span>•</span>';
+  s.appendChild(p); renumber(); editor(p,true);
+},true);
+
+/* ── images (compressed hard: Firestore doc ≤1MB) ── */
+var curSheet=0;
+document.addEventListener('mousedown',function(e){ var s=e.target.closest('.sheet'); if(s) curSheet=+s.getAttribute('data-sheet')||0 });
+window.addEventListener('scroll',debounce(function(){
+  var mid=innerHeight/2;
+  sheets.forEach(function(s,i){ var r=s.getBoundingClientRect(); if(r.top<mid&&r.bottom>mid) curSheet=i });
+},200));
+function strip(i){
+  var s=sheets[i], a=s.querySelector('.attach');
+  if(!a){ a=document.createElement('div'); a.className='attach'; s.appendChild(a) }
+  return a;
+}
+function addImg(file,i){
+  var img=new Image(), rd=new FileReader();
+  rd.onload=function(){ img.src=rd.result };
+  img.onload=function(){
+    var W=Math.min(img.naturalWidth,1200), sc=W/img.naturalWidth, c=document.createElement('canvas');
+    c.width=W; c.height=Math.round(img.naturalHeight*sc);
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    var url=c.toDataURL('image/jpeg',.78);
+    var f=document.createElement('figure'); f.className='aimg';
+    f.innerHTML='<button class="rm" contenteditable="false" title="Remove">✕</button><img src="'+url+'"><figcaption contenteditable="true">caption…</figcaption>';
+    strip(i).appendChild(f); push();
   };
-  $('bRst').onclick=function(){
-    if(!confirm('Discard ALL local edits, comments and images on this browser?')) return;
-    sheets.forEach(function(s,i){ localStorage.removeItem(K('sheet'+i)) });
-    location.reload();
-  };
-})();
+  rd.readAsDataURL(file);
+}
+$('bImg').onclick=function(){ if(!auth.currentUser){$('bAuth').click();return} $('fpick').click() };
+$('fpick').onchange=function(e){ [].slice.call(e.target.files).forEach(function(f){ addImg(f,curSheet) }); e.target.value='' };
+document.addEventListener('click',function(e){ if(e.target.classList&&e.target.classList.contains('rm')){ e.target.closest('.aimg').remove(); push() } },true);
+document.addEventListener('paste',function(e){
+  var items=(e.clipboardData||{}).items||[];
+  for(var i=0;i<items.length;i++){ if(items[i].type.indexOf('image')===0){ addImg(items[i].getAsFile(),curSheet); e.preventDefault() } }
+});
+document.addEventListener('dragover',function(e){ if([].some.call(e.dataTransfer.types,function(t){return t==='Files'})) e.preventDefault() });
+document.addEventListener('drop',function(e){
+  var fs=[].slice.call(e.dataTransfer.files).filter(function(f){return f.type.indexOf('image')===0});
+  if(fs.length){ e.preventDefault(); var s=e.target.closest('.sheet'); var i=s?+s.getAttribute('data-sheet'):curSheet; fs.forEach(function(f){addImg(f,i)}) }
+});
+
+/* ── export / reset ── */
+$('bExp').onclick=function(){
+  closeBox(); var was=editing; if(was) setEdit(false);
+  var html='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+  if(was) setEdit(true);
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));
+  a.download='dimension-trial-plan-annotated.html'; a.click();
+};
+$('bRst').onclick=function(){
+  if(isOwner()){
+    if(!confirm('Reset the LIVE page to the original — for everyone?')) return;
+    sheets.forEach(function(s,i){ s.innerHTML=pristine[i]; lastPushed[i]='' });
+    push();
+  } else location.reload();
+};
 </script>
 
 </body>
