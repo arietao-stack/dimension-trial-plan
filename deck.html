@@ -4,270 +4,237 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex">
-<title>Dimension Outreach — 14-Day Trial Plan · CoBa's Daughter</title>
+<title>Dimension 14-Day Trial — Media Plan · CoBa's Daughter</title>
 <style>
   :root{
-    --paper:#FBF8F3; --ink:#211D18; --ink-2:#5C544A; --ink-3:#8A8072; --line:#E5DDD0; --card:#FFFFFF;
+    --paper:#EFEAE1; --sheet:#FDFBF7; --card:#FFFFFF; --ink:#211D18; --ink-2:#575046; --ink-3:#8A8072;
+    --line:#E3DCCE; --line-soft:#EEE8DB;
     --accent:#B4530A; --accent-soft:#F6E3D3;
-    --good:#2E7D4F; --good-soft:#DFF0E5; --warn:#9A6B00; --warn-soft:#F7ECD2; --crit:#B3372B; --crit-soft:#F9E2DE;
+    --good:#2E7D4F; --good-soft:#E2F0E7; --warn:#95680A; --warn-soft:#F6ECD4; --crit:#B3372B; --crit-soft:#F9E2DE;
     --mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
     --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   }
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55}
-  .slide{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:64px clamp(24px,6vw,96px);border-bottom:1px solid var(--line);position:relative;max-width:1200px;margin:0 auto}
-  .eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:0 0 14px}
-  .slide-num{position:absolute;top:28px;right:clamp(24px,6vw,96px);font-family:var(--mono);font-size:12px;color:var(--ink-3)}
-  h1{font-family:var(--serif);font-size:clamp(34px,5.5vw,58px);line-height:1.08;margin:0 0 18px;font-weight:600;text-wrap:balance}
-  h2{font-family:var(--serif);font-size:clamp(26px,3.6vw,38px);line-height:1.12;margin:0 0 16px;font-weight:600;text-wrap:balance}
-  h3{font-size:15px;font-weight:700;margin:22px 0 8px;letter-spacing:.02em}
-  p{max-width:72ch;margin:0 0 12px;font-size:16px;color:var(--ink-2)}
-  p.big{font-size:19px;color:var(--ink)}
-  b{color:var(--ink)}
-  .meta{display:flex;flex-wrap:wrap;gap:8px 24px;font-size:14px;color:var(--ink-3);margin-top:18px}
-  .meta b{color:var(--ink-2)}
-  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;align-items:start}
-  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);margin:14px 0}
-  table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:540px}
-  th{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);text-align:left;font-weight:700;padding:10px 14px;border-bottom:1px solid var(--line)}
-  td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.42;-webkit-font-smoothing:antialiased}
+  .sheet{width:1180px;max-width:96vw;margin:28px auto;background:var(--sheet);border:1px solid var(--line);border-radius:6px;
+         box-shadow:0 8px 28px rgba(33,29,24,.10);padding:40px 46px 34px;position:relative}
+  .pageno{position:absolute;top:18px;right:22px;font-family:var(--mono);font-size:10.5px;color:var(--ink-3)}
+
+  /* header */
+  .head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:16px}
+  .eyebrow{font-size:10.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:0 0 6px}
+  h1{font-family:var(--serif);font-size:30px;line-height:1.05;margin:0;font-weight:600}
+  .headmeta{display:grid;grid-template-columns:auto auto;gap:2px 22px;font-size:11.5px;color:var(--ink-3);text-align:left;white-space:nowrap}
+  .headmeta b{color:var(--ink);font-weight:650}
+  .objective{font-size:14px;color:var(--ink-2);margin:0 0 18px;max-width:1080px}
+  .objective b{color:var(--ink)}
+
+  /* section label */
+  .sec{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-3);font-weight:750;margin:0 0 8px;display:flex;align-items:center;gap:8px}
+  .sec::after{content:"";flex:1;height:1px;background:var(--line)}
+  .sec .accent{color:var(--accent)}
+
+  /* how-it-works strip */
+  .steps{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:18px}
+  .stepc{border:1px solid var(--line);border-radius:8px;background:var(--card);padding:9px 11px;font-size:11.5px;color:var(--ink-2);position:relative}
+  .stepc .n{font-family:var(--mono);font-size:10px;color:var(--accent);font-weight:700;letter-spacing:.06em}
+  .stepc b{display:block;font-size:12px;color:var(--ink);margin:2px 0 3px;line-height:1.25}
+  .stepc:not(:last-child)::after{content:"→";position:absolute;right:-9px;top:42%;color:var(--ink-3);font-size:11px;z-index:2}
+
+  /* layout rows */
+  .cols{display:grid;gap:14px}
+  .cols.c2-1{grid-template-columns:2.05fr 1fr}
+  .cols.c1-1{grid-template-columns:1fr 1fr}
+
+  /* tables */
+  .twrap{border:1px solid var(--line);border-radius:8px;background:var(--card);overflow:hidden}
+  table{border-collapse:collapse;width:100%;font-size:12.5px}
+  th{font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);text-align:left;font-weight:750;padding:7px 10px;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--card) 60%,var(--sheet))}
+  td{padding:7px 10px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-2)}
   tr:last-child td{border-bottom:none}
+  td b{color:var(--ink);font-weight:650}
   td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-  tr.total td{font-weight:700;background:color-mix(in srgb,var(--card) 55%,var(--paper))}
-  td .sub{display:block;font-size:12px;color:var(--ink-3);font-weight:400}
-  .pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;border-radius:999px;padding:2px 10px;white-space:nowrap}
+  tr.total td{font-weight:700;color:var(--ink);background:color-mix(in srgb,var(--accent-soft) 34%,var(--card));border-top:1px solid var(--line)}
+  .sub{display:block;font-size:10.5px;color:var(--ink-3);font-weight:400;line-height:1.3;margin-top:1px}
+
+  .pill{display:inline-block;font-size:10px;font-weight:750;letter-spacing:.05em;border-radius:999px;padding:1.5px 9px;white-space:nowrap}
   .pill.good{background:var(--good-soft);color:var(--good)}
   .pill.warn{background:var(--warn-soft);color:var(--warn)}
   .pill.crit{background:var(--crit-soft);color:var(--crit)}
-  .pill.info{background:var(--accent-soft);color:var(--accent)}
-  .callout{border:1px solid var(--line);border-left:4px solid var(--accent);background:var(--card);border-radius:8px;padding:14px 18px;margin:16px 0;font-size:15px;color:var(--ink-2)}
-  .callout.warn{border-left-color:var(--warn)}
-  ul{padding-left:20px;margin:8px 0;color:var(--ink-2)}
-  li{margin:6px 0;max-width:70ch;font-size:15px}
-  .kbd{font-family:var(--mono);font-size:12px;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;background:var(--card)}
-  .mono{font-family:var(--mono);font-size:.9em}
 
-  /* --- UI mockups (redrawn 1:1 from live platform, Jul 14 2026) --- */
-  .ui{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:18px 20px;box-shadow:0 1px 3px rgba(33,29,24,.06)}
-  .ui .ui-title{font-size:13px;font-weight:700;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;color:var(--ink)}
-  .ui .ui-tag{font-size:10.5px;font-weight:700;letter-spacing:.06em;color:var(--ink-3);border:1px solid var(--line);border-radius:5px;padding:1px 7px}
-  .bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin:6px 0 2px}
-  .bar i{display:block;height:100%;border-radius:99px}
-  .bar-label{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-3)}
-  .bar-label b{color:var(--ink);font-variant-numeric:tabular-nums}
-  .ui-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:13px}
-  .ui-row:last-child{border-bottom:none}
-  .ui-note{font-size:11.5px;color:var(--ink-3);margin-top:10px}
-  .steps{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
-  .step{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;background:var(--card);padding:6px 14px 6px 8px;font-size:13px;font-weight:600}
-  .step .n{width:22px;height:22px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
-  .step.hot{border-color:var(--accent)}
-  .funnel{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0;align-items:stretch}
-  .fstage{flex:1;min-width:130px;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:12px 14px;position:relative}
-  .fstage .fk{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
-  .fstage .fv{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:2px}
-  .fstage .fr{font-size:11.5px;color:var(--accent);font-weight:600;margin-top:2px}
-  .msgbox{border:1px solid var(--line);border-radius:10px;background:var(--paper);padding:12px 14px;font-size:13px;color:var(--ink-2);font-family:var(--mono);line-height:1.5}
-  .msgbox .cursor{display:inline-block;width:7px;height:14px;background:var(--accent);vertical-align:-2px}
-  img[data-slot]{max-width:100%;border-radius:12px;border:1px solid var(--line);display:none;margin:14px 0}
-  footer{padding:28px clamp(24px,6vw,96px);font-size:12.5px;color:var(--ink-3);max-width:1200px;margin:0 auto}
-  @media print{.slide{min-height:auto;page-break-after:always;padding:40px}}
-  @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+  /* note cards */
+  .note{border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:6px;background:var(--card);padding:9px 12px;font-size:11.5px;color:var(--ink-2)}
+  .note b{color:var(--ink)}
+  .note ul{margin:4px 0 0;padding-left:15px}
+  .note li{margin:3px 0}
+
+  /* funnel tiles */
+  .funnel{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px}
+  .ft{border:1px solid var(--line);border-radius:8px;background:var(--card);padding:10px 12px;position:relative}
+  .ft .fk{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:750}
+  .ft .fv{font-family:var(--serif);font-size:27px;font-weight:600;font-variant-numeric:tabular-nums;margin:2px 0 0;color:var(--ink)}
+  .ft .fr{font-size:10.5px;color:var(--accent);font-weight:650;margin-top:1px}
+  .ft:not(:last-child)::after{content:"→";position:absolute;right:-9px;top:40%;color:var(--ink-3);font-size:12px;z-index:2}
+
+  /* quota mini-bar */
+  .bar{height:7px;border-radius:99px;background:var(--line-soft);overflow:hidden;margin:5px 0 3px}
+  .bar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+  .barlbl{display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink-3)}
+  .barlbl b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+  footer{width:1180px;max-width:96vw;margin:0 auto 34px;font-size:10.5px;color:var(--ink-3);padding:0 6px}
+  .mono{font-family:var(--mono);font-size:.92em}
+
+  @media (max-width:1000px){
+    .steps,.funnel{grid-template-columns:repeat(2,1fr)}
+    .stepc::after,.ft::after{display:none}
+    .cols.c2-1,.cols.c1-1{grid-template-columns:1fr}
+    .head{flex-direction:column;align-items:flex-start}
+    .sheet{padding:24px 20px}
+  }
+  @media print{
+    body{background:#fff}
+    .sheet{width:100%;max-width:none;margin:0;border:none;border-radius:0;box-shadow:none;padding:16px 20px;page-break-after:always;zoom:.62}
+    footer{display:none}
+    @page{size:A4 landscape;margin:8mm}
+  }
 </style>
 </head>
 <body>
 
-<!-- 1 · TITLE -->
-<section class="slide">
-  <span class="slide-num">01 / 08</span>
-  <p class="eyebrow">CoBa's Daughter × Dimension · TikTok Shop Affiliate</p>
-  <h1>14-Day Outreach Trial<br>Mechanism &amp; Allocation Plan</h1>
-  <p class="big">One trial window, one question: can Dimension's outreach machine produce enough creator pipeline to justify $500/brand/month — before the first invoice lands?</p>
-  <div class="meta">
-    <span>Window: <b>Jul 14 – 27, 2026</b> (trial ends on first billing day)</span>
-    <span>Decision: <b>Sun Jul 26 — Go / No-Go</b></span>
-    <span>Owner: <b>Arie (International Brand)</b></span>
-  </div>
-</section>
-
-<!-- 2 · MECHANISM -->
-<section class="slide">
-  <span class="slide-num">02 / 08</span>
-  <p class="eyebrow">The mechanism</p>
-  <h2>You build the campaign once.<br>The machine sends every day.</h2>
-  <div class="grid2">
+<!-- ═══════════════════ PAGE 1 · THE PLAN ═══════════════════ -->
+<section class="sheet">
+  <span class="pageno">PAGE 1 / 2 · THE PLAN</span>
+  <div class="head">
     <div>
-      <p>A campaign is a <b>template</b>: target filters + products + commission + one invitation message. Once live, Dimension auto-picks matching creators and sends invitations daily — nobody sends anything by hand.</p>
-      <p><b>The real bottleneck is 190 invites/day.</b> The "2,000/week" quota is nominal — 190 × 7 = 1,330 is the true weekly ceiling. Quota resets Monday 2AM and unused days are lost forever: a day the machine doesn't send is 190 invites gone.</p>
-      <ul>
-        <li>Invites only reach creators <b>under 20k followers</b> (TikTok cap at our shop tier). Bigger creators come in via Open Collab → Target Collab.</li>
-        <li>Daily human work is <b>15–20 min</b>: approve sample requests, reply to creator messages. Not campaign creation.</li>
-      </ul>
+      <p class="eyebrow">CoBa's Daughter × Dimension · TikTok Shop Affiliate</p>
+      <h1>14-Day Outreach Trial — Media Plan</h1>
     </div>
-    <div class="ui">
-      <div class="ui-title">Outreach Limits <span class="ui-tag">TikTok Shop · live figures Jul 14</span></div>
-      <div class="bar-label"><span>Daily invitations</span><b>0 / 190</b></div>
-      <div class="bar"><i style="width:2%;background:var(--accent)"></i></div>
-      <div class="bar-label" style="margin-top:10px"><span>Weekly quota (nominal)</span><b>0 / 2,000</b></div>
-      <div class="bar"><i style="width:2%;background:var(--accent)"></i></div>
-      <div class="ui-row"><span>Follower cap per invite</span><b>20,000</b></div>
-      <div class="ui-row"><span>Shop GMV tier</span><b>Up to $2k · level 1</b></div>
-      <div class="ui-row"><span>Weekly reset</span><b>Mon, Jul 20, 2AM</b></div>
-      <div class="ui-note">Effective weekly max = 190 × 7 = 1,330 — the 2,000 unlocks only when the shop climbs GMV tiers.</div>
-      <img data-slot src="img/quota.png" alt="Real screenshot: outreach limits" onload="this.style.display='block';this.previousElementSibling.style.display='none'">
+    <div class="headmeta">
+      <span>Window</span><b>Mon Jul 14 – Sun Jul 27, 2026</b>
+      <span>Decision</span><b>Sun Jul 26 · Go / No-Go</b>
+      <span>Owner</span><b>Arie · International Brand</b>
+      <span>Stakes</span><b>$500/brand/mo — first invoice Mon Jul 27</b>
     </div>
   </div>
-</section>
+  <p class="objective"><b>Objective — prove the machine before paying for it.</b> Dimension automates cold creator outreach for TikTok Shop. In 13 sending days we spend the full invitation quota across 4 audience angles, measure the sample-request funnel against the shop's own benchmarks, and decide before the first billing day. Success ≈ <b>$10–12 per shipped sample</b> vs ≈$540 per bought video.</p>
 
-<!-- 3 · FUNNEL + BRIEF FORMAT -->
-<section class="slide">
-  <span class="slide-num">03 / 08</span>
-  <p class="eyebrow">The mechanism, part 2</p>
-  <h2>Invite → sample → video → GMV.<br>And the brief travels as plain text.</h2>
-  <div class="funnel">
-    <div class="fstage"><div class="fk">Invites sent</div><div class="fv">2,430</div><div class="fr">13 days, all campaigns</div></div>
-    <div class="fstage"><div class="fk">Sample requests</div><div class="fv">~73</div><div class="fr">3% request rate</div></div>
-    <div class="fstage"><div class="fk">Approved &amp; shipped</div><div class="fv">~51</div><div class="fr">70% pass AI vetting</div></div>
-    <div class="fstage"><div class="fk">Videos posted</div><div class="fv">~21</div><div class="fr">40% post rate</div></div>
-    <div class="fstage"><div class="fk">Cohort GMV</div><div class="fv">~$2k</div><div class="fr">$39/sample · 30-day tail</div></div>
-  </div>
-  <div class="grid2">
-    <div>
-      <h3>Sample requests are screened, not auto-approved</h3>
-      <div class="ui">
-        <div class="ui-title">Samples · To review <span class="ui-tag">AI vetting</span></div>
-        <div class="ui-row"><span><b>Jazzy_Jen</b> @jen_jazzy2 · 11,409 followers</span><span class="pill warn">AI: Uncertain</span></div>
-        <div class="ui-row"><span>PPS 2.58/5 · post rate 36.8% · GMV $0</span><span class="pill crit">Expires in 4 days</span></div>
-        <div class="ui-note">Each request shows PPS score, post rate and an AI verdict. We approve manually — rule of thumb: post rate ≥30%, niche fit. Requests expire in ~4 days.</div>
-      </div>
-    </div>
-    <div>
-      <h3>No PDF upload — invitation &amp; brief are copy-paste text</h3>
-      <div class="ui">
-        <div class="ui-title">Invitation message <span class="ui-tag">step 4 of campaign</span></div>
-        <div class="msgbox">Hi! We're CoBa's Daughter — restorative body care made in Vietnam. Free sample, 15% commission, film it your way…<span class="cursor"></span></div>
-        <div class="ui-note">Dimension sends <b>plain text only</b>. So: 3-line pitch in the invitation → after approving the sample, the condensed one-page brief is pasted as a chat message (angles, non-negotiables, CTA). The designed brief pages stay internal as the source of truth.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 4 · CAPACITY -->
-<section class="slide">
-  <span class="slide-num">04 / 08</span>
-  <p class="eyebrow">Capacity math</p>
-  <h2>13 days = 2,430 invitations. Fixed.</h2>
-  <div class="tablewrap"><table>
-    <tr><th>Week</th><th>Days sending</th><th class="num">Max (190/day)</th><th class="num">Reserve*</th><th class="num">Planned invites</th></tr>
-    <tr><td>Week 1 · Jul 14–19</td><td>6 (mid-week start)</td><td class="num">1,140</td><td class="num">−20</td><td class="num">1,120</td></tr>
-    <tr><td>Week 2 · Jul 20–26</td><td>7 (full week)</td><td class="num">1,330</td><td class="num">−20</td><td class="num">1,310</td></tr>
-    <tr><td>Jul 27 (Mon)</td><td>Decision day</td><td class="num">—</td><td class="num">—</td><td class="num">send only if GO</td></tr>
-    <tr class="total"><td>Total</td><td>13 days</td><td class="num">2,470</td><td class="num">−40</td><td class="num">2,430</td></tr>
-  </table></div>
-  <p>*Reserve = 40 invitation slots held back for paid collabs and custom deals with named creators (incl. the equestrian reference creators, who are over the 20k-follower cap anyway).</p>
-  <div class="callout">Because the cap is <b>daily</b>, pacing is everything: the campaigns must be live and sending by <b>Jul 15</b>, and the daily quota bar gets checked every morning. An idle day cannot be bought back.</div>
-</section>
-
-<!-- 5 · SPLIT LAYER 1: ANGLES -->
-<section class="slide">
-  <span class="slide-num">05 / 08</span>
-  <p class="eyebrow">The split · layer 1 — audience angle</p>
-  <h2>Four briefs, weighted 40 / 25 / 20 / 15</h2>
-  <div class="tablewrap"><table>
-    <tr><th>Angle (brief)</th><th class="num">Share</th><th class="num">Invites</th><th class="num">Est. samples</th><th class="num">Est. videos</th><th>Role in the test</th></tr>
-    <tr><td><b>Summer Glow</b><span class="sub">broad, in-season</span></td><td class="num">40%</td><td class="num">~970</td><td class="num">~20</td><td class="num">8</td><td>Volume engine — main conversion test</td></tr>
-    <tr><td><b>Sweat-to-Soft</b><span class="sub">sports &amp; active</span></td><td class="num">25%</td><td class="num">~610</td><td class="num">~13</td><td class="num">5</td><td>Conversion test #2</td></tr>
-    <tr><td><b>Morning Ritual</b><span class="sub">self-care, crowded space</span></td><td class="num">20%</td><td class="num">~485</td><td class="num">~8</td><td class="num">3</td><td>Weakest hypothesis — first kill candidate</td></tr>
-    <tr><td><b>Equestrian</b><span class="sub">brand's TOF wedge</span></td><td class="num">15%</td><td class="num">~365</td><td class="num">~12</td><td class="num">5–6</td><td>Strategic — scored on its own board</td></tr>
-    <tr class="total"><td>Total</td><td class="num">100%</td><td class="num">2,430</td><td class="num">~53</td><td class="num">~22</td><td></td></tr>
-  </table></div>
-  <div class="grid2">
-    <div>
-      <h3>Why the strategic favorite gets 15%, not 40%</h3>
-      <ul>
-        <li><b>Pool depth:</b> equestrian × TikTok Shop × &lt;20k followers × GMV $1k+ is a few hundred creators at best — overfunding it stalls the daily quota or dilutes the filter.</li>
-        <li><b>Readout:</b> ~22 total videos split four ways = no angle has a readable sample. 40/25/20/15 gives the lead angle statistical weight while equestrian still yields a qualitative signal.</li>
-        <li><b>The Jul 26 gate is scored on total samples + request rate</b> — the broad angles carry that number.</li>
-      </ul>
-    </div>
-    <div>
-      <h3>Equestrian scoreboard (not judged on 14-day GMV)</h3>
-      <ul>
-        <li>Curated list of ≥25–30 qualified equestrian creators built (AI vector search → saved list)</li>
-        <li>≥12 samples accepted into the community · ≥5 videos with views ≥ creator's own median</li>
-        <li>"Where do I buy this" comments &amp; saves — the real TOF signal</li>
-        <li>2–3 ambassador / paid-collab candidates shortlisted for August</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- 6 · SPLIT LAYER 2: GMV -->
-<section class="slide">
-  <span class="slide-num">06 / 08</span>
-  <p class="eyebrow">The split · layer 2 — creator GMV, inside each campaign</p>
-  <h2>3 automated campaigns + 1 curated list</h2>
+  <p class="sec"><span class="accent">01</span> How the mechanism works</p>
   <div class="steps">
-    <span class="step"><span class="n">1</span> Key Information</span>
-    <span class="step"><span class="n">2</span> Products</span>
-    <span class="step hot"><span class="n">3</span> Creator Allocation ← GMV sections live here</span>
-    <span class="step"><span class="n">4</span> Invitation Message (one per campaign → one per angle)</span>
+    <div class="stepc"><span class="n">STEP 1</span><b>Build 4 campaigns, once</b>Filters + products + commission + one invite message. Jul 15. No daily rebuilding — automated campaigns self-refresh every Mon.</div>
+    <div class="stepc"><span class="n">STEP 2</span><b>Machine invites daily</b>Hard cap <b>190/day</b> = the real ceiling (190×7=1,330; the "2,000/wk" is nominal). Resets Mon 2AM. Unused days are lost.</div>
+    <div class="stepc"><span class="n">STEP 3</span><b>Creators request samples</b>Only &lt;20k-follower creators are invitable at our shop tier. Bigger ones enter via Open&nbsp;Collab → Target&nbsp;Collab.</div>
+    <div class="stepc"><span class="n">STEP 4</span><b>We approve — AI-vetted</b>Each request shows PPS score, post rate, AI verdict. Auto-approve OFF. Requests expire ~4 days. Ops: 15–20 min/day.</div>
+    <div class="stepc"><span class="n">STEP 5</span><b>Brief travels as text</b>No PDF upload exists: 3-line pitch in the invite → condensed 1-page brief <b>pasted in chat</b> after approval. Designed brief pages stay internal.</div>
+    <div class="stepc"><span class="n">STEP 6</span><b>Videos post → GMV</b>Tagged shop-link videos tracked in Affiliate → Videos; revenue attributed 30 days. Benchmarks: $39/sample, ~37% post rate.</div>
   </div>
-  <div class="tablewrap"><table>
-    <tr><th>Campaign</th><th>Type</th><th>GMV sections</th><th>Products</th><th class="num">Commission</th></tr>
-    <tr><td>Summer Glow</td><td>Automated</td><td>40% · $1k–2.5k &nbsp;+&nbsp; 60% · $2.5k–25k</td><td>Coffee Scrub $42 + Aloe Gel $32</td><td class="num">15% flat</td></tr>
-    <tr><td>Sweat-to-Soft</td><td>Automated</td><td>40% · $1k–2.5k &nbsp;+&nbsp; 60% · $2.5k–25k</td><td>Coffee Scrub + Aloe Gel</td><td class="num">15% flat</td></tr>
-    <tr><td>Morning Ritual</td><td>Automated</td><td>40% · $1k–2.5k &nbsp;+&nbsp; 60% · $2.5k–25k</td><td>Coffee Scrub + Aloe Gel</td><td class="num">15% flat</td></tr>
-    <tr><td>Equestrian TOF</td><td>From Creator List</td><td>Curated via AI search, any GMV</td><td>Coffee Scrub + Aloe Gel</td><td class="num">15% (custom for stars)</td></tr>
-  </table></div>
-  <ul>
-    <li>Automated campaigns <b>self-refresh every Monday</b> — sections re-fill and invites resume without rebuilding anything.</li>
-    <li>Free sample <b>ON</b> · auto-approve <b>OFF</b> · "Move creators on overlap" <b>ON</b> · preferred content: Video.</li>
-    <li><b>Price and commission stay frozen across all four.</b> The last creator/customer drop came from repositioning on price — this test keeps angle as the only variable. No discount-led hooks.</li>
-  </ul>
+
+  <div class="cols c2-1" style="margin-bottom:14px">
+    <div>
+      <p class="sec"><span class="accent">02</span> The allocation — 4 angles, weighted for readout</p>
+      <div class="twrap"><table>
+        <tr><th>Campaign / angle</th><th>Type</th><th class="num">Share</th><th class="num">Invites</th><th class="num">Est. samples</th><th class="num">Est. videos</th><th>Role in the test</th></tr>
+        <tr><td><b>Summer Glow</b><span class="sub">broad, in-season · summer girls</span></td><td>Automated</td><td class="num">40%</td><td class="num">~970</td><td class="num">~20</td><td class="num">~8</td><td>Volume engine — main conversion read</td></tr>
+        <tr><td><b>Sweat-to-Soft</b><span class="sub">sports &amp; active recovery</span></td><td>Automated</td><td class="num">25%</td><td class="num">~610</td><td class="num">~13</td><td class="num">~5</td><td>Conversion test #2</td></tr>
+        <tr><td><b>Morning Ritual</b><span class="sub">self-care · crowded space</span></td><td>Automated</td><td class="num">20%</td><td class="num">~485</td><td class="num">~8</td><td class="num">~3</td><td>Weakest hypothesis — first kill candidate</td></tr>
+        <tr><td><b>Equestrian</b><span class="sub">barn-to-luxury · brand's TOF wedge</span></td><td>Curated list</td><td class="num">15%</td><td class="num">~365</td><td class="num">~12</td><td class="num">~5</td><td>Strategic — scored on its own board ↓</td></tr>
+        <tr class="total"><td>Total</td><td></td><td class="num">100%</td><td class="num">2,430</td><td class="num">~53</td><td class="num">~21</td><td></td></tr>
+      </table></div>
+      <div class="cols c1-1" style="margin-top:10px">
+        <div class="note"><b>Why the strategic favorite gets 15%, not 40%.</b>
+          <ul>
+            <li><b>Pool depth:</b> equestrian × TikTok Shop × &lt;20k followers is a few hundred creators — overweighting stalls the daily quota.</li>
+            <li><b>Readout:</b> ~21 videos ÷ 4 equal ways = nothing readable. 40/25/20/15 gives the lead angle statistical weight.</li>
+            <li>The Jul 26 gate is scored on <b>total volume</b> — broad angles carry it.</li>
+          </ul>
+        </div>
+        <div class="note"><b>Equestrian scoreboard (not judged on 14-day GMV).</b>
+          <ul>
+            <li>Curated list ≥25–30 qualified riders (AI vector search → saved list)</li>
+            <li>≥12 samples accepted · ≥5 videos at ≥ creator's own median views</li>
+            <li>"Where do I buy this" comments &amp; saves = the TOF signal</li>
+            <li>2–3 ambassador / paid-collab candidates shortlisted for August</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p class="sec"><span class="accent">03</span> Capacity &amp; common setup</p>
+      <div class="twrap"><table>
+        <tr><th>Week</th><th>Sending days</th><th class="num">Invites</th></tr>
+        <tr><td><b>W1</b> · Jul 14–19</td><td>6 — mid-week start</td><td class="num">1,120</td></tr>
+        <tr><td><b>W2</b> · Jul 20–26</td><td>7 — full week</td><td class="num">1,310</td></tr>
+        <tr><td>Reserve</td><td>paid collabs &amp; named creators</td><td class="num">40</td></tr>
+        <tr class="total"><td>Total</td><td>13 days</td><td class="num">2,430</td></tr>
+      </table></div>
+      <div style="margin:10px 2px 12px">
+        <div class="barlbl"><span>Daily quota to watch every morning</span><b>190 / day</b></div>
+        <div class="bar"><i style="width:100%"></i></div>
+      </div>
+      <div class="twrap"><table>
+        <tr><th>Setting — identical across all 4</th><th class="num">Value</th></tr>
+        <tr><td>GMV sections per automated campaign</td><td class="num"><b>40%</b> $1k–2.5k · <b>60%</b> $2.5k–25k</td></tr>
+        <tr><td>Products</td><td class="num">Coffee Scrub $42 + Aloe Gel $32</td></tr>
+        <tr><td>Commission — <b>frozen</b>, angle is the only variable</td><td class="num">15% flat</td></tr>
+        <tr><td>Free sample / Auto-approve / Move on overlap</td><td class="num">ON · OFF · ON</td></tr>
+        <tr><td>Preferred content</td><td class="num">Video</td></tr>
+      </table></div>
+      <div class="note" style="margin-top:10px;border-left-color:var(--warn)"><b>Price discipline:</b> the last creator &amp; customer drop came from repositioning on price. No discount-led hooks anywhere in this test.</div>
+    </div>
+  </div>
 </section>
 
-<!-- 7 · KPI -->
-<section class="slide">
-  <span class="slide-num">07 / 08</span>
-  <p class="eyebrow">Targets</p>
-  <h2>KPI ladder — floor / target / stretch</h2>
-  <div class="tablewrap"><table>
-    <tr><th>Metric (13 days)</th><th class="num">Floor</th><th class="num">Target</th><th class="num">Stretch</th><th>Where it's read</th></tr>
-    <tr><td>Invites actually sent <span class="sub">operational discipline</span></td><td class="num">2,200</td><td class="num">2,430</td><td class="num">2,430</td><td>Campaigns → quota bars</td></tr>
-    <tr><td>Sample request rate <span class="sub">the trial's vital sign</span></td><td class="num">2%</td><td class="num">3%</td><td class="num">5%</td><td>Invitations → samples per 1,000 ÷ 10</td></tr>
-    <tr><td>Samples approved &amp; shipped</td><td class="num">34</td><td class="num">51</td><td class="num">85</td><td>Samples → Shipped</td></tr>
-    <tr><td>Videos posted <span class="sub">incl. 2-week tail</span></td><td class="num">14</td><td class="num">20</td><td class="num">34</td><td>Affiliate → Videos</td></tr>
-    <tr><td>Cohort GMV <span class="sub">30-day attribution</span></td><td class="num">$1.3k</td><td class="num">$2.0k</td><td class="num">$3.3k</td><td>Shop Overview → Affiliates</td></tr>
+<!-- ═══════════════════ PAGE 2 · TARGETS & EXECUTION ═══════════════════ -->
+<section class="sheet">
+  <span class="pageno">PAGE 2 / 2 · TARGETS &amp; EXECUTION</span>
+
+  <p class="sec"><span class="accent">04</span> Expected funnel — 13 days, all campaigns</p>
+  <div class="funnel">
+    <div class="ft"><div class="fk">Invites sent</div><div class="fv">2,430</div><div class="fr">quota fully spent</div></div>
+    <div class="ft"><div class="fk">Sample requests</div><div class="fv">~73</div><div class="fr">3% request rate</div></div>
+    <div class="ft"><div class="fk">Approved &amp; shipped</div><div class="fv">~51</div><div class="fr">70% pass vetting</div></div>
+    <div class="ft"><div class="fk">Videos posted</div><div class="fv">~21</div><div class="fr">40% post rate + tail</div></div>
+    <div class="ft"><div class="fk">Cohort GMV</div><div class="fv">~$2.0k</div><div class="fr">$39/sample · 30-day</div></div>
+  </div>
+
+  <div class="cols c1-1" style="margin-bottom:14px">
+    <div>
+      <p class="sec"><span class="accent">05</span> KPI ladder</p>
+      <div class="twrap"><table>
+        <tr><th>Metric · 13 days</th><th class="num">Floor</th><th class="num">Target</th><th class="num">Stretch</th><th>Read in</th></tr>
+        <tr><td><b>Invites actually sent</b><span class="sub">operational discipline</span></td><td class="num">2,200</td><td class="num">2,430</td><td class="num">2,430</td><td>Campaigns → quota bars</td></tr>
+        <tr><td><b>Sample request rate</b><span class="sub">the trial's vital sign</span></td><td class="num">2%</td><td class="num">3%</td><td class="num">5%</td><td>Invitations</td></tr>
+        <tr><td><b>Samples approved &amp; shipped</b></td><td class="num">34</td><td class="num">51</td><td class="num">85</td><td>Samples → Shipped</td></tr>
+        <tr><td><b>Videos posted</b><span class="sub">incl. 2-week tail</span></td><td class="num">14</td><td class="num">20</td><td class="num">34</td><td>Affiliate → Videos</td></tr>
+        <tr><td><b>Cohort GMV</b><span class="sub">30-day attribution</span></td><td class="num">$1.3k</td><td class="num">$2.0k</td><td class="num">$3.3k</td><td>Shop Overview → Affiliates</td></tr>
+      </table></div>
+      <div class="note" style="margin-top:10px"><b>Ops guardrails while volume scales:</b> reply to creators &lt;24h (response-rate warnings are our #1 recurring TikTok violation) · approve/reject samples &lt;48h (requests expire ~4 days) · COGS entered per product so Net P&amp;L reads true.</div>
+    </div>
+    <div>
+      <p class="sec"><span class="accent">06</span> Cadence — three checkpoints, then the call</p>
+      <div class="twrap"><table>
+        <tr><th style="width:92px">Date</th><th>Action</th></tr>
+        <tr><td><b>Tue Jul 15</b></td><td><b>Launch day.</b> Enter COGS, clear sample + inbox backlog, launch 3 automated campaigns + equestrian list campaign. Machine sending by evening.</td></tr>
+        <tr><td><b>Fri Jul 17</b></td><td><b>First signal.</b> Any angle &lt;1.5% request rate after ~250 invites → rewrite its invitation message. Don't kill yet.</td></tr>
+        <tr><td><b>Mon Jul 20</b></td><td><b>Quota reset → reallocate.</b> Winner +15pp share, loser −15pp. If Morning Ritual is clearly last: kill, fold into Summer Glow.</td></tr>
+        <tr><td><b>Sun Jul 26</b></td><td><b>Score vs the gate</b> and decide — before Monday's invoice.</td></tr>
+      </table></div>
+    </div>
+  </div>
+
+  <p class="sec"><span class="accent">07</span> Decision gate — Sun Jul 26</p>
+  <div class="twrap"><table>
+    <tr><th style="width:120px">Call</th><th>Threshold</th><th>Action</th><th>Rationale</th></tr>
+    <tr><td><span class="pill good">GO</span></td><td><b>≥40 samples shipped</b> and <b>request rate ≥2.5%</b> and <b>≥12 videos</b> live or in pipeline</td><td>Keep Dimension at $500/mo</td><td>≈$10–12 per shipped sample — an order of magnitude under bought content (≈$540/video). Scale path: climb GMV tier → larger daily cap.</td></tr>
+    <tr><td><span class="pill warn">NEGOTIATE</span></td><td>25–39 samples, or request rate 1.5–2.5%</td><td>Ask for extension / month-to-month</td><td>Signal exists but sample too small — two tuned weeks settle it.</td></tr>
+    <tr><td><span class="pill crit">NO-GO</span></td><td>&lt;25 samples or rate &lt;1.5% after two message rewrites</td><td>Cancel before billing</td><td>Cold outreach doesn't fit this shop tier yet — keep creator lists &amp; benchmarks, return to curated seeding.</td></tr>
   </table></div>
-  <p>Benchmarks are the shop's own live numbers, not industry guesses: <b>$39 revenue per sample</b> (trailing 30 days) and <b>~37% creator post rate</b>. Ops guardrails while volume scales: reply to creators &lt;24h, approve/reject samples &lt;48h.</p>
+
+  <p style="font-size:10.5px;color:var(--ink-3);margin:14px 2px 0">Sources: quota figures &amp; benchmarks read live from app.dimensionstudios.co (Jul 14, 2026) · allocation logic per Dimension expert guidance (Slack, louis) · benchmarks are the shop's own trailing-30-day numbers, not industry averages. Print: ⌘P → 2 pages, A4 landscape.</p>
 </section>
 
-<!-- 8 · CADENCE + GATE -->
-<section class="slide">
-  <span class="slide-num">08 / 08</span>
-  <p class="eyebrow">Cadence &amp; the decision</p>
-  <h2>Three checkpoints, then a clean call</h2>
-  <div class="tablewrap"><table>
-    <tr><th>Date</th><th>Action</th></tr>
-    <tr><td><b>Tue Jul 15</b></td><td>Setup day: enter COGS, clear pending sample + inbox backlog, launch 3 automated campaigns + equestrian list campaign. Machine sending by evening.</td></tr>
-    <tr><td><b>Fri Jul 17</b></td><td>First signal check: any angle with request rate &lt;1.5% after ~250 invites → rewrite its message (don't kill yet).</td></tr>
-    <tr><td><b>Mon Jul 20</b></td><td>Quota reset. Reallocate: winner +15% share, loser −15%. Morning Ritual clearly last → kill, fold into Summer.</td></tr>
-    <tr><td><b>Sun Jul 26</b></td><td>Score the trial against the gate below — decide before Monday's invoice.</td></tr>
-  </table></div>
-  <div class="tablewrap"><table>
-    <tr><th>Outcome on Jul 26</th><th>Call</th><th>Rationale</th></tr>
-    <tr><td><span class="pill good">GO</span> ≥40 samples shipped <b>and</b> request rate ≥2.5% <b>and</b> ≥12 videos live/pipeline</td><td>Keep Dimension at $500/mo</td><td>≈$10–12 per shipped sample — an order of magnitude under bought content (≈$540/video). Scale path = climb GMV tier → bigger daily cap.</td></tr>
-    <tr><td><span class="pill warn">NEGOTIATE</span> 25–39 samples, or rate 1.5–2.5%</td><td>Ask for trial extension / month-to-month</td><td>Signal exists but the sample is too small — two more tuned weeks will settle it.</td></tr>
-    <tr><td><span class="pill crit">NO-GO</span> &lt;25 samples or rate &lt;1.5% after two message tunes</td><td>Cancel before billing</td><td>Cold outreach doesn't fit this shop tier yet — keep the creator lists and benchmarks, return to curated seeding.</td></tr>
-  </table></div>
-</section>
-
-<footer>
-  CoBa's Daughter × Dimension · Trial plan, Jul 14 2026 · Quota figures and benchmarks read live from app.dimensionstudios.co; allocation logic per Dimension expert guidance (Slack). UI panels redrawn 1:1 from the live product — drop real screenshots into <span class="mono">img/quota.png</span> to swap them in.
-</footer>
+<footer>CoBa's Daughter × Dimension · 14-day trial media plan · Jul 14, 2026 · <span class="mono">arietao-stack.github.io/dimension-trial-plan</span></footer>
 
 </body>
 </html>
