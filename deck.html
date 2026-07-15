@@ -369,7 +369,7 @@
     <div class="info">
       <h4>Common setup — identical across all 4</h4>
       <table class="mini">
-        <tr><td>Compensation</td><td>Free sample + 15% flat · no paid collabs</td></tr>
+        <tr><td>Compensation</td><td>Free sample + 20% flat · no paid collabs</td></tr>
         <tr><td>GMV range inside every section's filters</td><td>$1k–25k</td></tr>
         <tr><td>Products</td><td>Coffee Scrub $42 + Aloe Gel $32</td></tr>
         <tr><td>Sample / auto-approve / overlap</td><td>ON · OFF · ON</td></tr>
@@ -462,7 +462,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signO
 import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const OWNER='arie.tao@lixibox.com';
-const SRC_REV=13; // bump on every source deploy — cloud edits from an older source are ignored
+const SRC_REV=14; // bump on every source deploy — cloud edits from an older source are ignored
 const fb=initializeApp({apiKey:"AIzaSyC70Bw3bXHrk39c6P4cD65iRwix4U-CaU0",authDomain:"github-arie.firebaseapp.com",projectId:"github-arie"});
 const auth=getAuth(fb), db=getFirestore(fb), provider=new GoogleAuthProvider();
 
